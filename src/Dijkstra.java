@@ -14,13 +14,22 @@ public class Dijkstra {
         public static void main(String[] args) {
                 
                 readGraph(args[0]);
-                Node s=new Node("1");
+                Node s=adj.get("1");
                 //System.out.println(s.getprovisionalDist()+" is source with dir towards "+s.getDir());
-                //Dijkstra(s);
-                printG();
+                Dijkstra(s);
+               // printDj();
         }
         
-        
+        public static void printDj(){
+        	Node toPrint = adj.get("1");
+            System.out.println("Source was " + toPrint);
+            for (int i =2; i<adj.size(); i++) {
+          		toPrint = adj.get(""+i);
+                System.out.println("Node " + toPrint + " best dist: " + toPrint.getDist());
+                
+                }
+        	
+        }
         
         public static void printG(){
                 int n=adj.size();
@@ -38,7 +47,7 @@ public class Dijkstra {
                         }
         }
         
-       /* 
+       
         public static void Dijkstra(Node source){
         
                 source.setDist(0);
@@ -47,21 +56,60 @@ public class Dijkstra {
                 source.setStatus("enqueued");
                 while (!queue.isEmpty()) {
                     Node v = queue.poll();
-
-
+                    LinkedList<Edge> edges=v.getEdges();
+                    System.out.println("current v is: "+v+", because min dist" + v.getDist());
+                    for (int i=0; i<edges.size(); i++){
+                    	Edge e = edges.get(i);
+                    	Node w=e.getDir();
+                    	System.out.println("checking "+w+" from "+v);
+                    	//System.out.println("bro of "+v+" is "+w);
+                        if (w.getStatus().equals("unvisited")){
+                        	w.setStatus("enqueued");
+                    		w.setDist(v.getDist() + e.getprovisionalDist());
+                    		System.out.println("now in queue, set dist at "+w.getDist());
+                          	w.setVia(v.getName());
+                            queue.add(w);
+                          //  System.out.println("added "+w);
+                          
+                        }
+                       	else if (w.getStatus().equals("enqueued")) {
+                       		int newDist=v.getDist() + e.getprovisionalDist();
+                       		System.out.println("working on "+w+"; current dist="+w.getDist()+"; potential dist ="+newDist);
+                       		if(newDist<w.getDist()){
+                       			System.out.println("updating current dist");
+                       			w.setDist(newDist);
+                       			System.out.println("set dist at "+w.getDist());
+                              	w.setVia(v.getName());
+                       			System.out.println("newdist is: "+newDist);
+                       			w.setVia(v.getName());
+                       			queue.decreaseKey(w, w.getDist());
+                       		}
+                       		else
+                       			System.out.println("no dist update");
+                       	}
+                       	else if (w.getStatus().equals("done")) {
+                       		System.out.println("tried to check " + w+ ", but it was done");
+                       	}
+                       	
+                       	
                     
+                    }
+                    v.setStatus("done");
+                    System.out.println("done with " + v + "; final dist is "+v.getDist());
                     
-                    
-                    //algorithm
-                    
-                    
-                    
-                    
-                        v.setStatus("done");
                         
-                }
-        }
-        */
+                    
+                    
+                    }
+
+                Node toPrint = adj.get("1");
+                for (int i =2; i<adj.size(); i++) {
+              		toPrint = adj.get(""+i);
+                    System.out.println("Node " + toPrint + " best dist: " + toPrint.getDist());
+                    
+                    }
+         }
+        
         public static void readGraph(String filename){
                 
                 adj = new HashMap<String, Node>();
@@ -77,10 +125,22 @@ public class Dijkstra {
                                         adj.put(line[1], nd);
                                         //System.out.println("putting in adj list : "+line[1]+" and its node is "+adj.get(line[1]));
                                 }
+                                else{
+                                	nd=adj.get(line[1]);
+                                }
                                 LinkedList<Edge> edg=adj.get(line[1]).getEdges();
-                                //System.out.println(edg);
-                                edg.add(new Edge( line[1], line[2], Integer.parseInt(line[3])));
-                                
+                               // System.out.println("edglist is "+edg+"; node is "+nd);
+                                Node nd2=new Node(line[2]);
+                                if (!adj.containsKey(line[2])){
+                                    
+                                    adj.put(line[2], nd2);
+                                    
+                            }
+                                else{
+                                	nd2=adj.get(line[2]);
+                                }
+                                edg.add(new Edge( line[1], nd2, Integer.parseInt(line[3])));
+                               // System.out.println("adding new edge to node "+nd+"; the edge is "+nd2);
                         }
 
                         sc.close();

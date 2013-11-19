@@ -1,11 +1,11 @@
 public class Edge{
                  
-        private String dir;   
+        private Node dir;   
            private String Name;             // data item (Name)
            private int provisionalDist;
           
            
-           public Edge(String n, String d, int v){           // constructor
+           public Edge(String n, Node d, int v){           // constructor
                    dir=d;
                 	Name=n;
                    provisionalDist=v;
@@ -25,7 +25,7 @@ public class Edge{
           
         
 
-           public String getDir(){
+           public Node getDir(){
                       return dir; }
                       
            public void printString() {

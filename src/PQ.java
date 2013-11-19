@@ -48,11 +48,11 @@ public class PQ {
 	public int size(){
 		return size;
 	}
-	public boolean decreaseKey(int i, int newValue){
+	public boolean decreaseKey(Node a, int newValue){
+		int i=Integer.parseInt(a.getName());
 		if(i<0 || i>=count)
 			return false;
    
-		heap[i].setDist(newValue);  
 		siftup(i);              
 		return true;
     }
@@ -61,14 +61,11 @@ public class PQ {
     
 		int parent = (i-1) / 2;
 		Node last = heap[i];
-		//System.out.println(i+" lll"); 
-		//System.out.println(parent+" lll"); 
-		//System.out.println(heap[0]+" lll"); 
 		while( i > 0 && heap[parent].getDist() > last.getDist() ){
 			heap[i] = heap[parent];
-			//System.out.println(i+"lala"); 
+			
 			i = parent;
-			//System.out.println(i+"l");
+			
 			parent = (parent-1) / 2; } 
 		
 		heap[i] = last;
@@ -98,7 +95,7 @@ public class PQ {
 		heap[i] = root;            
 	}
 	
-	/*
+	
 	public static void main(String[] args) {
 		
 		
@@ -106,12 +103,20 @@ public class PQ {
 		PQ h=new PQ(Arr.length);
 		
         for (int kk = 0; kk <= Arr.length - 1; kk++) {
-            h.add(0, Arr[kk]);
+        	Node a=new Node(""+kk);
+        	a.setDist(Arr[kk]);
+            h.add(a);
+            
         }
         for (int i=0; i<h.size; i++) {
-        	System.out.println(h.heap[i].getValue());
+        	System.out.println(h.heap[i].getDist());
+        }
+        h.poll();
+        System.out.println("hii");
+        for (int i=0; i<h.size; i++) {
+        	System.out.println(h.heap[i].getDist());
         }
       
-	}*/
+	}
     
 }

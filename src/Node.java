@@ -11,7 +11,7 @@ public class Node{
            public Node(String n){           // constructor
                   name=n;
                    dist=900000000;
-                   status="univisited";
+                   status="unvisited";
                    via=null;
                    edges=new LinkedList<Edge>();
            }
@@ -38,5 +38,10 @@ public class Node{
         
            public void setVia(String k){ 
                    via= k; }
+           
+           public String toString() {
+        	   return name;
+           }
+           
            
 }  
