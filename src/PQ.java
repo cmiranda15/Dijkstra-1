@@ -74,28 +74,28 @@ public class PQ {
 	
 	public void siftdown(int i){
 	    
-		int bigger;
+		int smaller;
 		Node root = heap[i];      
 		while(i < count/2){                           
 			int left = 2*i+1;
 			int right = left+1;
 	                                         
-			if(right < count &&  heap[left].getDist() < heap[right].getDist())
-				bigger = right;
+			if(right < count &&  heap[left].getDist() > heap[right].getDist())
+				smaller = right;
 			else
-				bigger = left;
-	                                         
-			if( root.getDist() >= heap[bigger].getDist() )
+				smaller = left;
+	                                        
+			if( root.getDist() <= heap[smaller].getDist() )
 				break;
 	                                         
-			heap[i] = heap[bigger];
-			i = bigger;           
+			heap[i] = heap[smaller];
+			i = smaller;           
 		}  
 		
 		heap[i] = root;            
 	}
 	
-	
+	/*
 	public static void main(String[] args) {
 		
 		
@@ -111,12 +111,14 @@ public class PQ {
         for (int i=0; i<h.size; i++) {
         	System.out.println(h.heap[i].getDist());
         }
-        h.poll();
+        Node k=h.poll();
+        h.decreaseKey(k, 14);
+        h.add(k);
         System.out.println("hii");
         for (int i=0; i<h.size; i++) {
         	System.out.println(h.heap[i].getDist());
         }
       
-	}
+	}*/
     
 }
